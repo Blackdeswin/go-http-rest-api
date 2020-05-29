@@ -8,8 +8,9 @@ import (
 
 // Store ...
 type Store struct {
-	config *Config
-	db     *sql.DB
+	config         *Config
+	db             *sql.DB
+	userPepository *UserPepository
 }
 
 // New ...
@@ -41,4 +42,15 @@ func (s *Store) Close() {
 
 	s.db.Close()
 
+}
+
+func (s *Store) User() *UserPepository {
+	if s.userPepository != nil {
+		return s.userPepository
+	}
+
+	s.userPepository = &UserPepository{
+		store: s,
+	}
+	return s.userPepository
 }
